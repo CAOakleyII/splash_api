@@ -16,12 +16,20 @@ router.get('/', function(req, res) {
   if(req.query.selector) {
     req.query.selector = JSON.parse(req.query.selector);
   }
-
   var sort = {};
   var query = {};
 
   _.extend(query, defaults, req.query);
 
+  if(query.selector) {
+    var isRegex = /\/.*\//;
+    for(var prop in query.selector){
+      if (isRegex.test(prop)) {
+        prop = new RegExp(prop);
+      }
+    }
+  }
+  
   Drinks.find(query.selector)
   .limit(query.limit)
   .skip(query.skip)
