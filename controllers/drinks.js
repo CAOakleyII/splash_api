@@ -21,15 +21,12 @@ router.get('/', function(req, res) {
 
   _.extend(query, defaults, req.query);
 
-  if(query.selector) {
-    var isRegex = /\/.*\//;
+  if (query.selector) {
     for(var prop in query.selector){
-      if (isRegex.test(prop)) {
         prop = new RegExp(prop);
-      }
     }
   }
-  
+
   Drinks.find(query.selector)
   .limit(query.limit)
   .skip(query.skip)
