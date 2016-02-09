@@ -5,8 +5,17 @@ var chalk = require('chalk');
 var app = express();
 mongoose.connect('mongodb://localhost/splash');
 
-
 var drinksController = require('./controllers/drinks');
+
+app.get('/*', function(req, res, next) {
+  var referrer = req.get('Referer');
+  console.log(referrer);
+  if (referrer === "http://localhost:3000/" || referrer === "http://splash.chrisaoakley.com/"){
+      res.header('Access-Control-Allow-Origin', "*");
+  }
+  next();
+});
+
 app.use('/drinks', drinksController);
 
 app.listen(6543);
