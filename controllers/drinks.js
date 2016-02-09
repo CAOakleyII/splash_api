@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
     skip : 0
   };
 
-  if(req.query.selector) {
+  if (req.query.selector) {
     req.query.selector = JSON.parse(req.query.selector);
   }
   var sort = {};
@@ -22,9 +22,7 @@ router.get('/', function(req, res) {
   _.extend(query, defaults, req.query);
 
   if (query.selector) {
-    for(var prop in query.selector){
-        prop = new RegExp(prop);
-    }
+    addRegex(query.selector);
   }
 
   Drinks.find(query.selector)
@@ -40,6 +38,17 @@ router.get('/', function(req, res) {
   });
 
 });
+
+function addRegex(obj){
+  for (var property in obj){
+    var propValue = obj[property];
+    if (typeof(propValue) === "string") {
+      obj[property] = new RegExp(propValue);
+    } else if (typeof(propValue) === "object") {
+      addRegex(propValue);
+    }
+  }
+}
 
 
 router.get('/:id', function(req, res){
