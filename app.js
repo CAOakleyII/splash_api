@@ -10,7 +10,7 @@ var drinksController = require('./controllers/drinks');
 app.get('/*', function(req, res, next) {
   var referrer = req.get('Referer');
   console.log(referrer);
-  if (referrer === "http://localhost:3000/" || referrer === "http://splash.chrisaoakley.com/"){
+  if (referrer === "http://chrisaoakley.com:3000/"){
       res.header('Access-Control-Allow-Origin', "*");
   }
   next();
